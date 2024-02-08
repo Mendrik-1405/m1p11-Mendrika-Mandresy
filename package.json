@@ -2,10 +2,10 @@
   "name": "m1p11-mendrika-mandresy",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "dev": "nodemon app.js",
-    "start":"node app.js"
+    "dev": "nodemon src/app.js",
+    "start":"node srv/app.js"
   },
   "keywords": [],
   "author": "",
