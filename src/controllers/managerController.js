@@ -14,7 +14,7 @@ class managerController {
     async find(req, res) {
         try {
             const manager = await Manager.find({});
-            res.status(200).json(depenses);  
+            res.status(200).json(manager);  
         } catch (error) {
             res.status(500).send({message: error.message});
         }
