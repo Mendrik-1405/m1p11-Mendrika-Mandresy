@@ -11,7 +11,7 @@ app.use(cookieParser())
 app.use(bodyParser.json());
 
 //gestion route
-const allRoutes = require('./routes/index');
+const allRoutes = require('./src/routes/index');
 
 async function use_routes(routes){
   Object.keys(routes)

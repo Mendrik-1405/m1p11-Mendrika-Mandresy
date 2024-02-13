@@ -1,16 +1,19 @@
 const mongoose = require('../utils/db');
-const service = require("./serviceModel");
-const tache = require("./tacheModel");
 
     employeSchema = new mongoose.Schema({
-        nom: String,
-        email: String,
+        name: String,
         password: String,
         phone: String,
         sexe: String,
         photo: String,
-        services:[service.schema],
-        taches:[tache.schema],
+        services: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Services'
+        }],
+        taches: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Taches'
+        }],
         horaire:{
             debut:Date,
             fin:Date

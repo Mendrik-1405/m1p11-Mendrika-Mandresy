@@ -3,7 +3,7 @@ const service = require("./serviceModel");
 
     tacheSchema = new mongoose.Schema({
         dateheure: Date,
-        service: service.Schema,
+        service: service.schema,
         client:{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Employes'
