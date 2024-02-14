@@ -1,16 +1,22 @@
 const mongoose = require('../utils/db');
-const service = require("./serviceModel");
-const rdv = require("./rdvModel");
-const employe = require("./employeModel");
 
     clientSchema = new mongoose.Schema({
         nom: String,
         email: String,
         password: String,
         phone: String,
-        rendezVous: [rdv.schema],
-        servicePref: [service.schema],
-        employePref: [employe.schema],
+        rendezVous: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'RendezVous'
+        }],
+        servicesPref: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Services'
+        }],
+        employesPref: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Employes'
+        }],
         porteFeuille: Number
     })
 
