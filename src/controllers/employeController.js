@@ -45,7 +45,7 @@ class employeController {
             if (employes==null || req.body.password !== employes.password){
                 throw Error("login error")
             }
-            const token=jwt.sign({employes},process.env.SECRET_KEY,{expiresIn: '120s'});
+            const token=jwt.sign({ id: employes._id.toString() },process.env.SECRET_KEY,{expiresIn:'120s'});
             res.cookie("token",token,{httpOnly:true});
             res.status(200).json({token});
         } catch (error) {
