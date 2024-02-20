@@ -14,10 +14,11 @@ const jwt=require('jsonwebtoken');
 
 function verifyToken(req,res,next) {
     try {
-        const employe=jwt.verify(req.cookies.token,process.env.SECRET_KEY);
+        const idemploye=jwt.verify(req.cookies.token,process.env.SECRET_KEY);
         next();
     } catch (error) {
         res.clearCookie("token");
+        res.sendStatus(403).send({ message: error.message });
     }
  
 }
