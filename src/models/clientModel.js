@@ -7,15 +7,15 @@ const mongoose = require('../utils/db');
         phone: String,
         rendezVous: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'RendezVous'
+            ref: 'Rdv'
         }],
         servicesPref: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Services'
+            ref: 'Service'
         }],
         employesPref: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Employes'
+            ref: 'Employe'
         }],
         porteFeuille: Number
     })

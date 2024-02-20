@@ -6,7 +6,7 @@ const service = require("./serviceModel");
         service: service.schema,
         client:{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Employes'
+            ref: 'Employe'
         },
         etat: Number
     })

@@ -5,11 +5,11 @@ const mongoose = require('../utils/db');
         serviceEmpl: [{
             service: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'Services',
+                ref: 'Service',
             },
             employe: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'Employes',
+                ref: 'Employe',
             }
         }]
     })
