@@ -48,5 +48,14 @@ class rdvController {
         }
     }
 
+    async findByIdemploye(req, res) {   
+        try {
+            const rdvs = await Rdv.find({ 'serviceEmpl.employe': req.params.employeId })
+            .populate('serviceEmpl.service');
+            res.status(200).json(rdvs);
+        } catch (err) {
+            res.status(404).send({ message: err.message });
+        }
+    }
 }
 module.exports = new rdvController();
