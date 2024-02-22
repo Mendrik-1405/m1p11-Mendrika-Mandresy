@@ -46,8 +46,9 @@ class employeController {
                 throw Error("login error")
             }
             const token=jwt.sign({ id: employes._id.toString() },process.env.SECRET_KEY,{expiresIn:'120s'});
-            res.cookie("token",token,{httpOnly:true});
-            res.status(200).json({token});
+            console.log(token);
+            res.cookie("token",token,{httpOnly:true,secure: true,sameSite:'None'});
+            res.status(200).json(employes);
         } catch (error) {
             res.status(500).send({ message: error.message });
         }

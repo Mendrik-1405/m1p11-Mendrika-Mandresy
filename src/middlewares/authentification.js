@@ -14,7 +14,7 @@ const jwt=require('jsonwebtoken');
 
 function verifyToken(req,res,next) {
     try {
-        const idemploye=jwt.verify(req.cookies.token,process.env.SECRET_KEY);
+        const employe=jwt.verify(req.cookies.token,process.env.SECRET_KEY);
         next();
     } catch (error) {
         res.clearCookie("token");

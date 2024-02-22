@@ -9,9 +9,10 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 const corsOptions = {
-  origin: '*',
+  origin: process.env.FRONTEND_URL,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
+  credentials: true
 };
 
 app.use(cors(corsOptions));
