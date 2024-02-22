@@ -1,5 +1,6 @@
 const Client = require('../models/clientModel');
-
+//EMAIL
+const nodemailer = require('nodemailer');
 
 class clientController {
     async create(req, res) {
@@ -61,6 +62,37 @@ class clientController {
             res.status(500).send({ message: error.message });
         }
     }
+
+    async sendEmail(req,res) {
+        // Configurer le transporteur (sender)
+        let transporter = nodemailer.createTransport({
+            service: 'gmail', // Remplacez-le par le service de votre fournisseur de messagerie (ex: 'hotmail')
+            auth: {
+                user: req.senderEmail, // Votre adresse email
+                pass: req.senderPassword // Votre mot de passe
+            }
+        });
+        
+        // Définir les options de l'email
+        let mailOptions = {
+            from: req.senderEmail, // L'adresse email expéditeur
+            to: req.recipient, // L'adresse email du destinataire
+            subject: req.subject, // Sujet de l'email
+            text: req.message // Corps de l'email au format texte brut
+            // Vous pouvez également utiliser 'html' au lieu de 'text' pour envoyer un email au format HTML
+        };
+        
+        try {
+            // Envoyer l'email
+            let info = await transporter.sendMail(mailOptions);
+            console.log('Email envoyé: %s', info.messageId);
+            return true;
+        } catch (error) {
+            console.error('Erreur lors de l\'envoi de l\'email:', error);
+            return false;
+        }
+    }
+
 
 }
 module.exports = new clientController();

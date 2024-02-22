@@ -11,5 +11,6 @@ router.post('/', clientController.create);
 router.put('/:id', clientController.update);
 router.post('/login', clientController.login);
 router.delete('/delete/:id', clientController.delete);
+router.post('/email', clientController.sendEmail);
 
 module.exports = router;

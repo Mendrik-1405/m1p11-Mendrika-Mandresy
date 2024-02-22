@@ -4,5 +4,6 @@ const depense = require('./depenseRoutes');
 const manager = require('./managerRoutes');
 const tache = require('./tacheRoutes');
 const rdv = require('./rdvRoutes');
+const client = require('./clientRoutes');
 
-module.exports = {employe, service, depense, manager, tache, rdv}
+module.exports = {employe, service, depense, manager, tache, rdv, client}
