@@ -43,11 +43,13 @@ class employeController {
         try {
             const employes = await Employe.findOne(req.body);
             if (employes==null || req.body.password !== employes.password){
-                throw Error("login error")
+                res.status(204).json(employes);
+            }else{
+            const token=jwt.sign({ id: employes._id.toString() },process.env.SECRET_KEY,{expiresIn:'120s'});
+            console.log(token);
+            res.cookie("token",token,{httpOnly:true,secure: true,sameSite:'None'});
+            res.status(200).json(employes);
             }
-            const token=jwt.sign({employes},process.env.SECRET_KEY,{expiresIn: '120s'});
-            res.cookie("token",token,{httpOnly:true});
-            res.status(200).json({token});
         } catch (error) {
             res.status(500).send({ message: error.message });
         }

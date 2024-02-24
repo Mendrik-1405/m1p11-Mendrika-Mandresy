@@ -8,11 +8,11 @@ const mongoose = require('../utils/db');
         photo: String,
         services: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Services'
+            ref: 'Service'
         }],
         taches: [{
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Taches'
+            ref: 'Tache'
         }],
         horaire:{
             debut:Date,

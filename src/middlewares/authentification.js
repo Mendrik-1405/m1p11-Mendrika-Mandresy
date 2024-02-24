@@ -18,6 +18,7 @@ function verifyToken(req,res,next) {
         next();
     } catch (error) {
         res.clearCookie("token");
+        res.sendStatus(403).send({ message: error.message });
     }
  
 }
