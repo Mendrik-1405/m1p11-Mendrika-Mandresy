@@ -49,6 +49,41 @@ class clientController {
         }
     }
 
+    async getClientRdvs(req, res) {
+        try {
+            const clientId = req.params.id;
+            const client = await Client.findById(clientId).populate({
+                path: 'rendezVous',
+                populate: {
+                    path: 'serviceEmpl',
+                    populate: [
+                        { path: 'service', select: 'nom photo' },
+                        { path: 'employe', select: 'name photo' }
+                    ]
+                }
+            });
+
+            if (!client) {
+                return res.status(404).json({ message: "Client non trouvé" });
+            }
+    
+            const rdvs = client.rendezVous.map(rdv => ({
+                _id: rdv._id,
+                dateheure: rdv.dateheure.toISOString(),
+                service: rdv.serviceEmpl.service.nom,
+                photoService: rdv.serviceEmpl.service.photo,
+                employe: rdv.serviceEmpl.employe.name,
+                photoEmploye: rdv.serviceEmpl.employe.photo
+            }));
+    
+            res.status(200).json(rdvs);
+
+        } catch (error) {
+            console.error('Erreur lors de la récupération des rendez-vous du client :', error);
+            throw error;
+        }
+    }
+
     async login(req, res){
         try {
             const clients = await Client.findOne(req.body);
