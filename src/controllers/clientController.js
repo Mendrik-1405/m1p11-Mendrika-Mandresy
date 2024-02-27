@@ -52,35 +52,53 @@ class clientController {
     async getClientRdvs(req, res) {
         try {
             const clientId = req.params.id;
+            console.log(clientId);
+
             const client = await Client.findById(clientId).populate({
                 path: 'rendezVous',
                 populate: {
                     path: 'serviceEmpl',
                     populate: [
-                        { path: 'service', select: 'nom photo' },
-                        { path: 'employe', select: 'name photo' }
+                        { path: 'service', model: 'Service' },
+                        { path: 'employe', model: 'Employe' }
                     ]
                 }
             });
-
+    
             if (!client) {
                 return res.status(404).json({ message: "Client non trouvé" });
             }
+            console.log("client: ", client);
     
-            const rdvs = client.rendezVous.map(rdv => ({
-                _id: rdv._id,
-                dateheure: rdv.dateheure.toISOString(),
-                service: rdv.serviceEmpl.service.nom,
-                photoService: rdv.serviceEmpl.service.photo,
-                employe: rdv.serviceEmpl.employe.name,
-                photoEmploye: rdv.serviceEmpl.employe.photo
-            }));
+            const rendezVousClients = client.rendezVous.map(rdv => {
+                const serviceEmpl = rdv.serviceEmpl[0];
     
-            res.status(200).json(rdvs);
-
+                // Vérifier si les champs requis sont définis
+                if (!serviceEmpl || !serviceEmpl.service || !serviceEmpl.employe) {
+                    console.error("Données de rendez-vous incomplètes:", rdv);
+                    //return null; // Ignorer ce rendez-vous s'il manque des données
+                }
+    
+                const service = serviceEmpl.service;
+                console.log("SERVICE: ", service);
+                const employe = serviceEmpl.employe;
+                console.log("EMPLOYE: ", employe);
+    
+                return {
+                    _id: rdv._id,
+                    dateheure: rdv.dateheure.toISOString(),
+                    service: service.nom,
+                    photoService: service.photo,
+                    employe: employe.name,
+                    photoEmploye: employe.photo
+                };
+            }).filter(Boolean);
+    
+            res.status(200).json(rendezVousClients);
+    
         } catch (error) {
             console.error('Erreur lors de la récupération des rendez-vous du client :', error);
-            throw error;
+            res.status(500).json({ message: "Erreur lors de la récupération des rendez-vous du client" });
         }
     }
 
