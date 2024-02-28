@@ -163,17 +163,13 @@ class clientController {
             }
             console.log("client: ", client);
     
-            const servicePrefs = client.servicePrefs.map(pref => {
-                const servicePref = pref.servicePrefs[0];
-
-                console.log("SERVICE: ", servicePref);
-    
+            const servicePrefs = client.servicesPref.map(service => {
                 return {
-                    _id: pref._id,
-                    nom: servicePref.nom,
-                    photo: servicePref.photo
+                    _id: service._id,
+                    nom: service.nom,
+                    photo: service.photo
                 };
-            }).filter(Boolean);
+            });
     
             res.status(200).json(servicePrefs);
     
@@ -197,19 +193,15 @@ class clientController {
             }
             console.log("client: ", client);
     
-            const employePrefs = client.employePrefs.map(pref => {
-                const employePref = pref.employePrefs[0];
-
-                console.log("EMPLOYE: ", employePref);
-    
+            const employesPrefs = client.employesPref.map(employe => {
                 return {
-                    _id: pref._id,
-                    nom: employePref.nom,
-                    photo: employePref.photo
+                    _id: employe._id,
+                    nom: employe.nom,
+                    photo: employe.photo
                 };
-            }).filter(Boolean);
+            });
     
-            res.status(200).json(employePrefs);
+            res.status(200).json(employesPrefs);
     
         } catch (error) {
             console.error('Erreur lors de la récupération des employés favoris du client :', error);
