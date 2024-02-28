@@ -1,4 +1,5 @@
 const Client = require('../models/clientModel');
+const jwt=require('jsonwebtoken');
 //EMAIL
 const nodemailer = require('nodemailer');
 
@@ -106,11 +107,13 @@ class clientController {
         try {
             const clients = await Client.findOne(req.body);
             if (clients==null || req.body.password !== clients.password){
-                throw Error("login error")
+                res.status(204).json(clients);
+            }else{
+            const token=jwt.sign({ id: clients._id.toString() },process.env.SECRET_KEY,{expiresIn:'120s'});
+            console.log(token);
+            res.cookie("token",token,{httpOnly:true,secure: true,sameSite:'None'});
+            res.status(200).json(clients);
             }
-            const token=jwt.sign({clients},process.env.SECRET_KEY,{expiresIn: '120s'});
-            res.cookie("token",token,{httpOnly:true});
-            res.status(200).json({token});
         } catch (error) {
             res.status(500).send({ message: error.message });
         }
