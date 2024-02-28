@@ -146,6 +146,74 @@ class clientController {
         }
     }
 
+    async getServicePref(req, res) {
+        try {
+            const clientId = req.params.id;
+            console.log(clientId);
+
+            const client = await Client.findById(clientId).populate(
+                {path: 'servicesPref', model: 'Service'}
+            );
+    
+            if (!client) {
+                return res.status(404).json({ message: "Client non trouvé" });
+            }
+            console.log("client: ", client);
+    
+            const servicePrefs = client.servicePrefs.map(pref => {
+                const servicePref = pref.servicePrefs[0];
+
+                console.log("SERVICE: ", servicePref);
+    
+                return {
+                    _id: pref._id,
+                    nom: servicePref.nom,
+                    photo: servicePref.photo
+                };
+            }).filter(Boolean);
+    
+            res.status(200).json(servicePrefs);
+    
+        } catch (error) {
+            console.error('Erreur lors de la récupération des services favoris du client :', error);
+            res.status(500).json({ message: "Erreur lors de la récupération des services favoris du client" });
+        }
+    }
+
+    async getEmployePref(req, res) {
+        try {
+            const clientId = req.params.id;
+            console.log(clientId);
+
+            const client = await Client.findById(clientId).populate(
+                {path: 'employesPref', model: 'Employe'}
+            );
+    
+            if (!client) {
+                return res.status(404).json({ message: "Client non trouvé" });
+            }
+            console.log("client: ", client);
+    
+            const employePrefs = client.employePrefs.map(pref => {
+                const employePref = pref.employePrefs[0];
+
+                console.log("EMPLOYE: ", employePref);
+    
+                return {
+                    _id: pref._id,
+                    nom: employePref.nom,
+                    photo: employePref.photo
+                };
+            }).filter(Boolean);
+    
+            res.status(200).json(employePrefs);
+    
+        } catch (error) {
+            console.error('Erreur lors de la récupération des employés favoris du client :', error);
+            res.status(500).json({ message: "Erreur lors de la récupération des employés favoris du client" });
+        }
+    }
+
 
 }
 module.exports = new clientController();
