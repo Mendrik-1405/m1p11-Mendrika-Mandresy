@@ -14,9 +14,11 @@ class rdvController {
         }
     }
 
-    async createwithEmploye(req, res) {
+    async createwithClient(req, res) {
         try {
-            const client = await Client.findById(req.params.id);
+            console.log("idclient"+req.params.idclient);
+            const client = await Client.findById(req.params.idclient);
+            console.log("nomclient"+client.nom);
             if (!client) {
                 return res.status(404).send({ message: "Client not found" });
             }
