@@ -2,7 +2,7 @@ const mongoose = require('../utils/db');
 
     depenseSchema = new mongoose.Schema({
         type: String,
-        prix: Number,
+        montant: Number,
         date: Date
     })
 

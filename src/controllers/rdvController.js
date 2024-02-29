@@ -1,4 +1,5 @@
 const Rdv = require('../models/rdvModel');
+const Client = require('../models/clientModel');
 
 
 class rdvController {
@@ -6,6 +7,26 @@ class rdvController {
         try {
             const rdv = new Rdv(req.body);
             await rdv.save();
+            console.log("saved rdv");
+            res.status(201).json(rdv);
+        } catch (err) {
+            res.status(500).send({ message: err.message });
+        }
+    }
+
+    async createwithClient(req, res) {
+        try {
+            console.log("idclient"+req.params.idclient);
+            const client = await Client.findById(req.params.idclient);
+            console.log("nomclient"+client.nom);
+            if (!client) {
+                return res.status(404).send({ message: "Client not found" });
+            }
+            const rdv = new Rdv(req.body);
+            await rdv.save();
+            client.rendezVous.push(rdv._id);
+            await client.save();
+            console.log("saved employe rdv");
             res.status(201).json(rdv);
         } catch (err) {
             res.status(500).send({ message: err.message });
