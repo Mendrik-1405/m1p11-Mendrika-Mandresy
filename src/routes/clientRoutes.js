@@ -6,7 +6,7 @@ const router = express.Router();
 
 // Définir les routes pour gérer les services
 router.get('/:id', clientController.findById);
-router.get('/',verifyToken, clientController.findAll);
+router.get('/', clientController.findAll);
 router.post('/', clientController.create);
 router.put('/:id', clientController.update);
 router.post('/login', clientController.login);
